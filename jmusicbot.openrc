@@ -1,0 +1,22 @@
+#!/sbin/openrc-run
+
+name=$RC_SVCNAME
+_bot_root="/var/www/discordbot"
+cfgfile="/etc/$RC_SVCNAME/$RC_SVCNAME.conf"
+command="/usr/bin/java"
+command_args="-Dnogui=true -jar ${_bot_root}/JMusicBot.jar"
+command_user="discordbot"
+start_stop_daemon_args='--chdir $_bot_root'
+pidfile="/run/$RC_SVCNAME/$RC_SVCNAME.pid"
+command_background="yes"
+output_log="/var/log/jmusicbot.log"
+error_log="/var/log/jmusicbot.err"
+
+depend() {
+        need net
+}
+
+start_pre() {
+        checkpath --directory --owner $command_user:$command_user --mode 0775 \
+                /run/$RC_SVCNAME /var/log/$RC_SVCNAME
+}

@@ -1,0 +1,20 @@
+[Unit]
+Description=JMusicBot Service
+After=local-fs.target network.target multi-user.target
+
+[Service]
+SuccessExitStatus=143
+
+User=discordbot
+Group=discordbot
+
+Type=simple
+Restart=always
+RestartSec=10
+
+WorkingDirectory=/srv/discordbot
+ExecStart=java -Dnogui=true -jar JMusicBot.jar
+ExecStop=/bin/kill -15 $MAINPID
+
+[Install]
+WantedBy=multi-user.target
